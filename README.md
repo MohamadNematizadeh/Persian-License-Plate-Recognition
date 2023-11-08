@@ -1,6 +1,9 @@
 # Persian License Plate Recognition 🚘
 Vehicle license plate recognition using   
  yolov8 library 🚗🚘,
+ # **resalt**
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
+
 ## Hohw to ran
 ### Install
 ```
@@ -23,8 +26,6 @@ python3 main.py
 |Val     |    1.203    |
 
 
-# **resalt**
-![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
 
 
 

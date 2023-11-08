@@ -7,8 +7,8 @@
   
 - | Dataset |  Loss	     | 
     | :---   |   :---:   | 
-    |Train   |  9.2271   | 
-    |Val     |  8.7625   |
+    |Train   |  0.7693  | 
+    |Val     |   1.06    |
 
 
 # **resalt**

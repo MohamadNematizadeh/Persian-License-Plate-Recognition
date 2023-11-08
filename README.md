@@ -3,6 +3,12 @@ Vehicle license plate recognition using
  yolov8 library 🚗🚘,
  # **resalt**
 ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
+# Experiments
+| Dataset |  Loss	     | 
+| :---   |   :---:   | 
+|Train   |  0.7693  | 
+|Val     |    1.203    |
+
 
 ## Hohw to ran
 ### Install
@@ -19,12 +25,6 @@ Download the  weights from link below:
 ```
 python3 main.py
 ```
-
-| Dataset |  Loss	     | 
-| :---   |   :---:   | 
-|Train   |  0.7693  | 
-|Val     |    1.203    |
-
 
 
 

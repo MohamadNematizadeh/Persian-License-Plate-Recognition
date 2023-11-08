@@ -24,7 +24,7 @@ python3 main.py
 
 
 # **resalt**
-![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/image0.jpg?raw=true)
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
 
 
 

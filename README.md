@@ -12,5 +12,5 @@
 
 
 # **resalt**
-![screen shot]()
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/output.jpg?raw=true)
 

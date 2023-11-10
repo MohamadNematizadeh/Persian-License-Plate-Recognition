@@ -2,8 +2,11 @@
 Vehicle license plate recognition using   
  yolov8 library 🚗🚘,
  # **resalt**
-![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
-![screen shot](https://drive.google.com/file/d/1--NfGRJb8wHkCqqi1hIxfwYzblLaJBMd/view?usp=sharing)
+| resalt |      | 
+| :---   |   :---:   | 
+|![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
+  |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/result%202.jpg?raw=true)
+  | 
 
 # Experiments
 | Dataset |  Loss	     | 

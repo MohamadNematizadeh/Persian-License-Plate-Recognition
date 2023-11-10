@@ -5,8 +5,8 @@ Vehicle license plate recognition using
 | resalt |      | 
 | :---   |   :---:   | 
 |![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/resalt.jpg)
-  |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/result%202.jpg?raw=true)
-  | 
+  |  
+  | ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/result%202.jpg?raw=true)
 
 # Experiments
 | Dataset |  Loss	     | 

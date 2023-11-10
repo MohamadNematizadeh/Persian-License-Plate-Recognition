@@ -6,8 +6,8 @@ Vehicle license plate recognition using
 # Experiments
 | Dataset |  Loss	     | 
 | :---   |   :---:   | 
-|Train   |  0.7693  | 
-|Val     |    1.203    |
+|Train   |  0.7219  | 
+|Val     |    1.118    |
 
 
 ## Hohw to ran
@@ -19,7 +19,7 @@ Download the  dataset from link below:
 [dataset](https://drive.google.com/drive/folders/1II8AoCIZAb1PLai5CT98RrkNCPFmX3Qv?usp=drive_link)
 
 Download the  weights from link below:
-  [weights](https://drive.google.com/drive/folders/1JvC8sVOIoYpw_qruFNKRmoaQvm91K18T?usp=drive_link)
+  [weights](https://drive.google.com/file/d/1lUs3NwrGLw1CPtg0J7RtPmxgIaVyfkB7/view?usp=drive_link)
 
 ## Inference:
 ```

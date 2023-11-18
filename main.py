@@ -9,15 +9,13 @@ Original file is located at
 
 !pip install ultralytics
 
-from google.colab import drive
-drive.mount('/content/drive')
-
 from ultralytics import YOLO
 
 model = YOLO("yolov8x.pt")
 
-model.train(data="/content/drive/MyDrive/Persian_License_Plate-Recognition/Persian_License_Plate_Recognition.yaml",epochs=90)
-
+new_model = YOLO("/content/drive/MyDrive/Persian_License_Plate-Recognition/runs/detect/train/weights/best.pt")
+result_cv2 = cv2.imread("/content/drive/MyDrive/Persian_License_Plate-Recognition/datasets/images/validation/49_police.jpg")
+result_car = new_model(result_cv2,save=True,save_crop=True)
 import cv2
 import matplotlib.pyplot as plt
 new_model = YOLO("/content/drive/MyDrive/Persian_License_Plate-Recognition/weights/best.pt")

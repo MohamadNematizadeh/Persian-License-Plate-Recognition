@@ -4,8 +4,8 @@ Vehicle license plate recognition using
  # **resalt**
 | resalt YOLO |  resalt DTRB	     | 
 | :---   |   :---:   | 
-| 
-![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/io/input_plates/16_car.jpg?raw=true)    |  92j28612   |
+| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/io/input_plates/16_car.jpg?raw=true)    |  92j28612   |
+
 
 # Experiments
 | Dataset |  Percentage rate | 

@@ -1,7 +1,0 @@
---------------------------------------------------------------------------------
-image_path               	predicted_labels         	confidence score
---------------------------------------------------------------------------------
-io/input_plates\16_car.jpg	92j28612                 	0.9990
-io/input_plates\25_taxi.jpg	43t31912                 	0.9979
-io/input_plates\30_bas.jpg	94e85212                 	0.9977
-io/input_plates\60_wheelchair.jpg	51e48211                 	0.5255

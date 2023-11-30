@@ -5,7 +5,7 @@ Vehicle license plate recognition using
 | resalt YOLO |  resalt DTRB	     | 
 | :---   |   :---:   | 
 | 
-![screen shot](io\input_plates\16_car.jpg)    |  92j28612   |
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/io/input_plates/16_car.jpg?raw=true)    |  92j28612   |
 
 # Experiments
 | Dataset |  Percentage rate | 
@@ -33,10 +33,7 @@ python3 main.py
 # plt & matrix yolov8
 | |  	     | 
 | :---   |   :---:   | 
-| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/F1_curve.png?raw=true)    |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/PR_curve.png?raw=true)  |
-| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/P_curve.png?raw=true)    |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/R_curve.png?raw=true)  | 
-| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/confusion_matrix_normalized.png?raw=true)    |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/labels.jpg?raw=true)  | 
-| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/Plt_matrix/labels_correlogram.jpg?raw=true)    |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/results.png?raw=true)  |
+| ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/matrix/F1_curve.png?raw=true)    |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/matrix/confusion_matrix_normalized.png?raw=true)  |  ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/matrix/labels_correlogram.jpg?raw=true)  |
 
 
 

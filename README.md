@@ -1,6 +1,6 @@
 # Persian License Plate Recognition 🚘
 Vehicle license plate recognition using   
- yolov8 and  (DTRB)[deep-text-recognition-benchmark](https://github.com/clovaai/deep-text-recognition-benchmark) library 🚗🚘,
+ yolov8 and  [DTRB (deep-text-recognition-benchmark)](https://github.com/clovaai/deep-text-recognition-benchmark) library 🚗🚘,
  # **result**
 | result YOLO |  result DTRB	     | 
 | :---   |   :---:   | 

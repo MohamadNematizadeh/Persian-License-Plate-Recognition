@@ -16,15 +16,15 @@ Vehicle license plate recognition using
 |test DTRB  |   3.998   |
 
  
-# Hohw to ran
+# How to run
 ### Install
 ```
 pip install -r requirements.txt
 ```
-Download the  [dataset and weights DTRB](https://drive.google.com/drive/folders/1hTuK4nj27cyAGaRL3ZqOqbO8gU_9IJCK) from link below
+Download the  [dataset and weights DTRB](https://drive.google.com/drive/folders/1hTuK4nj27cyAGaRL3ZqOqbO8gU_9IJCK) from link
 
 Download the   [weights YOLOV8](https://drive.google.com/drive/folders/1-iCOXis3LvVwNnXZyav-eMpYQgqzL0--)
- from link below
+ from link 
 
 ## Inference:
 ```

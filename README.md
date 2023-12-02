@@ -21,10 +21,9 @@ Vehicle license plate recognition using
 ```
 pip install -r requirements.txt
 ```
-Download the  [dataset and weights DTRB](https://drive.google.com/drive/folders/1hTuK4nj27cyAGaRL3ZqOqbO8gU_9IJCK) from link
+Download the  [dataset and weights DTRB](https://drive.google.com/drive/folders/1hTuK4nj27cyAGaRL3ZqOqbO8gU_9IJCK) 
 
 Download the   [weights YOLOV8](https://drive.google.com/drive/folders/1-iCOXis3LvVwNnXZyav-eMpYQgqzL0--)
- from link 
 
 ## Inference:
 ```

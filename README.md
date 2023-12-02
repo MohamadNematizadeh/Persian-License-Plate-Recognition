@@ -1,8 +1,8 @@
 # Persian License Plate Recognition 🚘
 Vehicle license plate recognition using   
  yolov8 and DTRB library 🚗🚘,
- # **resalt**
-| resalt YOLO |  resalt DTRB	     | 
+ # **result**
+| result YOLO |  result DTRB	     | 
 | :---   |   :---:   | 
 | ![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/io/input_plates/16_car.jpg?raw=true)    |  92j28612   |
 

@@ -2,17 +2,17 @@
 # License Plate Detection
 License plate detection using YOLOv8 🚗
 
-![screen shot]()
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/License%20Plate%20Detection/License%20Plate%20Detection.png?raw=true)
 
 # License Plate Recognition
 Car license plate recognition using DTRB (Deep Text Recognition Benchmark) 🚗
 
-![screen shot]()
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/License%20Plate%20Recognition/License%20Plate%20Recognition.png?raw=true)
 
 # License Plate PipeLine
 Vehicle license plate pipeline using YOLOV8 and DTRB (deep text recognition criteria) 🚗
 
-![screen shot]()
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/License%20Plate%20PipeLine/License%20Plate%20PipeLine.png?raw=true)
 # Experiments
 | Dataset |  Percentage rate | 
 | :---   |   :---:   | 

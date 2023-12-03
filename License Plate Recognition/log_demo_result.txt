@@ -1,0 +1,10 @@
+--------------------------------------------------------------------------------
+image_path               	predicted_labels         	confidence score
+--------------------------------------------------------------------------------
+io/input\plate_image_result_YOLOV8.jpg	57l97                    	0.4940
+--------------------------------------------------------------------------------
+image_path               	predicted_labels         	confidence score
+--------------------------------------------------------------------------------
+io/input\plate_image_result_0.jpg	79h79536                 	0.9987
+io/input\plate_image_result_1.jpg	71c42336                 	0.9969
+io/input\plate_image_result_2.jpg	78e57412                 	0.3724

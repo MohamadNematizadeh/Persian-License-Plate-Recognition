@@ -13,10 +13,8 @@ from deep_text_recognition_benchmark.model import Model
 
 
 parser = argparse.ArgumentParser()
-# parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
 parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
-# parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
 """ Data processing """
 parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
 parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
@@ -72,9 +70,8 @@ class DTRB:
         self.model.load_state_dict(torch.load(weights_path, map_location=self.device))
 
     def load_data(self, image_folder):
-        # prepare data. two demo images from https://github.com/bgshih/crnn#run-demo
         AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-        demo_data = RawDataset(root=image_folder, opt=opt)  # use RawDataset
+        demo_data = RawDataset(root=image_folder, opt=opt)  
         self.demo_loader = torch.utils.data.DataLoader(
             demo_data, batch_size=opt.batch_size,
             shuffle=False,
@@ -84,42 +81,29 @@ class DTRB:
     def predict(self, image):
         AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
         transform = transforms.Compose([
-            transforms.ToTensor(),
-            # transforms.Normalize(0, 1)
+            transforms.ToTensor()
             ])
-            
-        # predict
         self.model.eval()
         with torch.no_grad():
             image_tensor = transform(image)
             image_tensor = image_tensor.sub_(0.5).div_(0.5)
-            image_tensor = torch.unsqueeze(image_tensor, 0) # output: [1, 1, 32, 100]
+            image_tensor = torch.unsqueeze(image_tensor, 0) 
             print(image_tensor.shape)
-            # image_tensor = torch.permute(image_tensor, (0, 1, 3, 2))
-            # print(image_tensor.shape)
-
             # image_tensor = AlignCollate_demo(image_tensor)
-            
-            # for image_tensors, image_path_list in self.demo_loader:
+            # image_tensor = torch.permute(image_tensor,(0,1,3,2))
             batch_size = image_tensor.size(0)
             image = image_tensor.to(self.device)
-            # For max length prediction
             length_for_pred = torch.IntTensor([opt.batch_max_length] * batch_size).to(self.device)
             text_for_pred = torch.LongTensor(batch_size, opt.batch_max_length + 1).fill_(0).to(self.device)
 
             if 'CTC' in opt.Prediction:
                 preds = self.model(image, text_for_pred)
-
-                # Select max probabilty (greedy decoding) then decode index to character
                 preds_size = torch.IntTensor([preds.size(1)] * batch_size)
                 _, preds_index = preds.max(2)
-                # preds_index = preds_index.view(-1)
                 preds_str = self.converter.decode(preds_index, preds_size)
 
             else:
                 preds = self.model(image, text_for_pred, is_train=False)
-
-                # select max probabilty (greedy decoding) then decode index to character
                 _, preds_index = preds.max(2)
                 preds_str = self.converter.decode(preds_index, length_for_pred)
 
@@ -136,10 +120,9 @@ class DTRB:
             for img_name, pred, pred_max_prob in zip(["besco"], preds_str, preds_max_prob):
                 if 'Attn' in opt.Prediction:
                     pred_EOS = pred.find('[s]')
-                    pred = pred[:pred_EOS]  # prune after "end of sentence" token ([s])
+                    pred = pred[:pred_EOS]  
                     pred_max_prob = pred_max_prob[:pred_EOS]
 
-                # calculate confidence score (= multiply of pred_max_prob)
                 confidence_score = pred_max_prob.cumprod(dim=0)[-1]
 
                 print(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}')

@@ -1,3 +1,4 @@
 ultralytics
 natsort
-lmdB
+lmdb
+PySide6

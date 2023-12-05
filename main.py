@@ -1,6 +1,6 @@
 import cv2
 from ultralytics import YOLO
-from deep_text_recognition_benchmark.dtrb import DTRB
+from deep_text_recognition_benchmark.dtrb_ui import DTRB
 
 plate_detector = YOLO("weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
 plate_recognizer = DTRB("weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")

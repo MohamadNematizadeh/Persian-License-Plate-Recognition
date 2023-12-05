@@ -1,8 +1,8 @@
 # Persian License Plate Recognition 🚘
-# License Plate PipeLine
 Vehicle license plate pipeline using YOLOV8 and DTRB (deep text recognition criteria) 🚗
 
-![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/License%20Plate%20PipeLine.png?raw=true)
+![screen shot](https://github.com/MohamadNematizadeh/Persian-License-Plate-Recognition/blob/main/License_Plate_PipeLine_UI.png?raw=true)
+
 # Experiments
 | Dataset |  Percentage rate | 
 | :---   |   :---:   | 
@@ -25,4 +25,4 @@ Download the   [weights YOLOV8](https://drive.google.com/drive/folders/1-iCOXis3
 ```
 python3 main.py
 ```
-# 
+

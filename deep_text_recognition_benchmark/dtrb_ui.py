@@ -5,16 +5,26 @@ import torch.backends.cudnn as cudnn
 import torch.utils.data
 import torch.nn.functional as F
 import torchvision.transforms as transforms
+import os
+import cv2
+from ultralytics import YOLO
 
+from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QProgressBar, QTableWidgetItem, QMainWindow, QFileDialog
+from PySide6.QtCore import QThread, Signal, Qt, QLine
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import QThread, Qt, QLine
+from PySide6.QtGui import QIcon, QPixmap, QImage
+from PySide6 import QtGui
 
 from deep_text_recognition_benchmark.utils import CTCLabelConverter, AttnLabelConverter
 from deep_text_recognition_benchmark.dataset import RawDataset, AlignCollate
 from deep_text_recognition_benchmark.model import Model
 
-
 parser = argparse.ArgumentParser()
+# parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
 parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
+# parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
 """ Data processing """
 parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
 parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
@@ -36,27 +46,32 @@ parser.add_argument('--hidden_size', type=int, default=256, help='the size of th
 
 opt = parser.parse_args()
 
-class DTRB:
+class DTRB(QThread):
+    ShowPreview = Signal(object)
+    ShowPlate = Signal(object)
     def __init__(self, weights_path):
-        if opt.sensitive:
-            opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
+            QThread.__init__(self)
+            if opt.sensitive:
+                opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
 
-        cudnn.benchmark = True
-        cudnn.deterministic = True
-        opt.num_gpu = torch.cuda.device_count()
+            cudnn.benchmark = True
+            cudnn.deterministic = True
+            self.input_file_path = None
 
-        """ model configuration """
-        if 'CTC' in opt.Prediction:
-            self.converter = CTCLabelConverter(opt.character)
-        else:
-            self.converter = AttnLabelConverter(opt.character)
-        opt.num_class = len(self.converter.character)
+            opt.num_gpu = torch.cuda.device_count()
 
-        if opt.rgb:
-            opt.input_channel = 3
-        
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.load_model(weights_path)
+            """ model configuration """
+            if 'CTC' in opt.Prediction:
+                self.converter = CTCLabelConverter(opt.character)
+            else:
+                self.converter = AttnLabelConverter(opt.character)
+            opt.num_class = len(self.converter.character)
+
+            if opt.rgb:
+                opt.input_channel = 3
+            
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            self.load_model(weights_path)
 
     def load_model(self, weights_path):
         self.model = Model(opt)
@@ -70,8 +85,9 @@ class DTRB:
         self.model.load_state_dict(torch.load(weights_path, map_location=self.device))
 
     def load_data(self, image_folder):
+        # prepare data. two demo images from https://github.com/bgshih/crnn#run-demo
         AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-        demo_data = RawDataset(root=image_folder, opt=opt)  
+        demo_data = RawDataset(root=image_folder, opt=opt)  # use RawDataset
         self.demo_loader = torch.utils.data.DataLoader(
             demo_data, batch_size=opt.batch_size,
             shuffle=False,
@@ -81,8 +97,11 @@ class DTRB:
     def predict(self, image):
         AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
         transform = transforms.Compose([
-            transforms.ToTensor()
+            transforms.ToTensor(),
+            # transforms.Normalize(0, 1)
             ])
+            
+        # predict
         self.model.eval()
         with torch.no_grad():
             image_tensor = transform(image)
@@ -93,17 +112,23 @@ class DTRB:
             # image_tensor = torch.permute(image_tensor,(0,1,3,2))
             batch_size = image_tensor.size(0)
             image = image_tensor.to(self.device)
+            # For max length prediction
             length_for_pred = torch.IntTensor([opt.batch_max_length] * batch_size).to(self.device)
             text_for_pred = torch.LongTensor(batch_size, opt.batch_max_length + 1).fill_(0).to(self.device)
 
             if 'CTC' in opt.Prediction:
                 preds = self.model(image, text_for_pred)
+
+                # Select max probabilty (greedy decoding) then decode index to character
                 preds_size = torch.IntTensor([preds.size(1)] * batch_size)
                 _, preds_index = preds.max(2)
+                # preds_index = preds_index.view(-1)
                 preds_str = self.converter.decode(preds_index, preds_size)
 
             else:
                 preds = self.model(image, text_for_pred, is_train=False)
+
+                # select max probabilty (greedy decoding) then decode index to character
                 _, preds_index = preds.max(2)
                 preds_str = self.converter.decode(preds_index, length_for_pred)
 
@@ -120,16 +145,48 @@ class DTRB:
             for img_name, pred, pred_max_prob in zip(["besco"], preds_str, preds_max_prob):
                 if 'Attn' in opt.Prediction:
                     pred_EOS = pred.find('[s]')
-                    pred = pred[:pred_EOS]  
+                    pred = pred[:pred_EOS]  # prune after "end of sentence" token ([s])
                     pred_max_prob = pred_max_prob[:pred_EOS]
 
+                # calculate confidence score (= multiply of pred_max_prob)
                 confidence_score = pred_max_prob.cumprod(dim=0)[-1]
 
                 print(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}')
                 log.write(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}\n')
 
             log.close()
+            return pred
 
+    def setInput(self, input_file_path):
+        self.input_file_path = input_file_path
+
+    def processImage(self, image):
+        image = cv2.imread(self.input_file_path)
+        plate_detector = YOLO("weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
+        results = plate_detector.predict(image)
+
+        for result in results:
+            for i in range(len(result.boxes.xyxy)):
+                if result.boxes.conf[i] > 0.6:
+                    bbox = result.boxes.xyxy[i]
+                    bbox = bbox.cpu().detach().numpy().astype(int)
+                    print(bbox)
+                    x1, y1, x2, y2 = bbox
+                    plate_image = image[y1:y2, x1:x2].copy()
+                    plate_image = cv2.resize(plate_image, (100, 32))
+                    plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
+                    cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
+                    a = self.predict(plate_image)
+                    self.ShowPreview.emit(image)            
+                    return a    
+ 
+    def run(self):
+        print(self.input_file_path)
+        file_name, file_extension = os.path.splitext(self.input_file_path)
+        if file_extension.lower() in ['.jpg', '.jpeg', '.png', '.bmp']:
+            image = cv2.imread(self.input_file_path)
+            b=self.processImage(image)
+            return(b)
 
 if __name__ == "__main__":
     plate_recognizer = DTRB("../weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")

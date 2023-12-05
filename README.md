@@ -23,6 +23,6 @@ Download the   [weights YOLOV8](https://drive.google.com/drive/folders/1-iCOXis3
 
 ## Inference:
 ```
-python3 main.py
+python3 ui_main.py
 ```
 

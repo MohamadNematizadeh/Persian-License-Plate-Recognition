@@ -27,8 +27,8 @@ class Main(QMainWindow):
         self.ui.show()
         self.plate_recognizer = DTRB("weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")
         self.ui.btn_browse.clicked.connect(self.main)
-        self.plate_recognizer.signalShowPreview.connect(self.ShowPreview)
-        self.plate_recognizer.signalShowPlate.connect(self.ShowPlate)
+        self.plate_recognizer.ShowPreview.connect(self.ShowPreview)
+        self.plate_recognizer.ShowPlate.connect(self.ShowPlate)
 
 
     def main(self):

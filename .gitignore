@@ -1,2 +1,4 @@
 weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth
 weigths/yolov8-detector/yolov8-s-license-plate-detector.pt
+db/license_plate_recognition.db
+db/license_plate_recognition.sqbpro

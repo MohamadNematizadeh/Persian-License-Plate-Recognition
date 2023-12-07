@@ -2,6 +2,14 @@ import argparse
 import cv2
 from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
+from difflib import SequenceMatcher
+from Creating_data import Database
+
+
+
+
+
+
 
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
@@ -28,11 +36,11 @@ parser.add_argument('--output_channel', type=int, default=512,
 parser.add_argument('--hidden_size', type=int, default=256, help='the size of the LSTM hidden state')
 parser.add_argument('--detector-weights', type=str, default="weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
 parser.add_argument('--recognizer-weights', type=str, default="weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")
-parser.add_argument('--input-image', type=str, default="io/input/1.jpg")
-parser.add_argument('--threshold', type=float, default=0.6)
+parser.add_argument('--input-image', type=str, default="io/input/157047019.jpg")
+parser.add_argument('--threshold', type=float, default=0.7)
 
 opt = parser.parse_args()
-
+db = Database()
 plate_detector = YOLO(opt.detector_weights)
 plate_recognizer = DTRB(opt.recognizer_weights , opt)
 
@@ -50,6 +58,9 @@ for result in results:
             plate_image = cv2.resize(plate_image, (100, 32))
             plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
-            plate_recognizer.predict(plate_image , opt)
+            text_plake_labl = plate_recognizer.predict(plate_image , opt)
+            text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
+
+
 
 cv2.imwrite("io/output/image_result_2.jpg", image) 

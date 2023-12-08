@@ -7,8 +7,5 @@ class Database:
     def get_Plake_text(self , text_plake_labl):
         self.query = f"SELECT * FROM Plake WHERE Plake_text = '{text_plake_labl}'"
         result = self.cursor.execute(self.query)
-        self.plake_text = result = result.fetchall()
-        if self.plake_text:
-            print("ok")
-        else:
-            print("no")    
+        self.plake_text =  result.fetchall()
+        return self.plake_text

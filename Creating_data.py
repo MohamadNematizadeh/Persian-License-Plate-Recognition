@@ -1,11 +1,13 @@
 import sqlite3 
+from difflib import SequenceMatcher
+
 class Database:
     def __init__(self):
         self.con = sqlite3.connect('db/license_plate_recognition.db')
         self.cursor = self.con.cursor()
 
     def get_Plake_text(self , text_plake_labl):
-        self.query = f"SELECT * FROM Plake WHERE Plake_text = '{text_plake_labl}'"
-        result = self.cursor.execute(self.query)
-        self.plake_text =  result.fetchall()
-        return self.plake_text
+        self.cursor.execute(f"SELECT * FROM Plake WHERE text = '{text_plake_labl}'")
+        plak = self.cursor.fetchone()
+        plake_text = SequenceMatcher(None,text_plake_labl,plak[2]).ratio() 
+        return plak , plake_text

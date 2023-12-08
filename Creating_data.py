@@ -9,5 +9,4 @@ class Database:
     def get_Plake_text(self , text_plake_labl):
         self.cursor.execute(f"SELECT * FROM Plake WHERE text = '{text_plake_labl}'")
         plak = self.cursor.fetchone()
-        plake_text = SequenceMatcher(None,text_plake_labl,plak[2]).ratio() 
-        return plak , plake_text
+        return plak

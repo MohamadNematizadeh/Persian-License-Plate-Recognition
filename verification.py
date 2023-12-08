@@ -36,7 +36,7 @@ parser.add_argument('--output_channel', type=int, default=512,
 parser.add_argument('--hidden_size', type=int, default=256, help='the size of the LSTM hidden state')
 parser.add_argument('--detector-weights', type=str, default="weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
 parser.add_argument('--recognizer-weights', type=str, default="weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")
-parser.add_argument('--input-image', type=str, default="io/input/157047019.jpg")
+parser.add_argument('--input-image', type=str, default="io/input/2.bmp")
 parser.add_argument('--threshold', type=float, default=0.7)
 
 opt = parser.parse_args()
@@ -60,6 +60,10 @@ for result in results:
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
             text_plake_labl = plate_recognizer.predict(plate_image , opt)
             text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
+            if text_plake_labl_2:
+                print("Ok They have the right to enter ✔️")
+            else:
+                print("No, they do not have the right to enter ⛔")    
 
 
 

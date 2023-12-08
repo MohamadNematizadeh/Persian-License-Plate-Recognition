@@ -56,9 +56,9 @@ for result in results:
             text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
             # print(SequenceMatcher(None,text_plake_labl,text_plake_labl_2).ratio())
             if text_plake_labl_2:
-                print("Ok They have the right to enter ✔️")
+                print("True ✔️")
             else:
-                print("No, they do not have the right to enter ⛔")    
+                print("False ⛔")    
 
 
 

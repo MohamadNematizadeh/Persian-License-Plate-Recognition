@@ -5,6 +5,12 @@ from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
 from Creating_data import Database
 
+
+
+
+
+
+
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
@@ -56,9 +62,9 @@ for result in results:
             text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
             if text_plake_labl_2 :
                 print(SequenceMatcher(None,text_plake_labl,text_plake_labl_2[2]).ratio())
-                print("Ok They have the right to enter ✔️")
+                print(f"Ok They have the right to enter Mr.{text_plake_labl_2[1]}✔️")
             else:
-                print("No, they do not have the right to enter ⛔")        
+                print("No, they do not have the right to enter ⛔")    
 
 
 

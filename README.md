@@ -23,7 +23,6 @@ Download [dataset](https://drive.google.com/drive/folders/1MR0LYsC9TAAznmS0QLGaT
 Download pre-trained [weights](https://drive.google.com/drive/folders/1qZXPQfkU9xZr67AtYxdzHM4RxyukYJ-D)
 ## !!! and put them to db and weights folder.
 
--------
 ## How to run:
 ----
 Run this command:

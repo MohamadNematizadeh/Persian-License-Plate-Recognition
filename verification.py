@@ -54,11 +54,11 @@ for result in results:
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
             text_plake_labl = plate_recognizer.predict(plate_image , opt)
             text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
-            print(text_plake_labl_2)
-            if text_plake_labl_2:
+            if text_plake_labl_2 :
+                print(SequenceMatcher(None,text_plake_labl,text_plake_labl_2[2]).ratio())
                 print("Ok They have the right to enter ✔️")
             else:
-                print("No, they do not have the right to enter ⛔")    
+                print("No, they do not have the right to enter ⛔")        
 
 
 

@@ -29,4 +29,8 @@ Run this command:
 ```
 python main.py --input-image YOUR_IMAGE.jpg
 ```
+Run this command:
+```
+python verification.py --input-image YOUR_IMAGE.jpg
+```
 Also you can chang threshold  using`--threshold`

@@ -24,7 +24,7 @@ Download pre-trained [weights](https://drive.google.com/drive/folders/1qZXPQfkU9
 ## !!! and put them to db and weights folder.
 
 ## How to run:
-----
+
 Run this command:
 ```
 python main.py --input-image YOUR_IMAGE.jpg

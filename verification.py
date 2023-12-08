@@ -4,6 +4,7 @@ from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
 from Creating_data import Database
+
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
@@ -53,6 +54,7 @@ for result in results:
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
             text_plake_labl = plate_recognizer.predict(plate_image , opt)
             text_plake_labl_2 = db.get_Plake_text(text_plake_labl)
+            # print(SequenceMatcher(None,text_plake_labl,text_plake_labl_2).ratio())
             if text_plake_labl_2:
                 print("Ok They have the right to enter ✔️")
             else:

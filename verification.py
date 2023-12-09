@@ -4,13 +4,6 @@ from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
 from Creating_data import Database
-
-
-
-
-
-
-
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
@@ -64,7 +57,6 @@ for result in results:
             plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
             labal = plate_recognizer.predict(plate_image, opt)
             for labal in plates:
-                print(sequenceMatcher(plates[0], labal))
                 if sequenceMatcher(plates[0], labal) > 0.10:
                     print(f'{True}')
                     break

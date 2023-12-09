@@ -4,6 +4,13 @@ from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
 from Creating_data import Database
+
+
+
+
+
+
+
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
@@ -38,9 +45,9 @@ def sequenceMatcher(plake , plakes):
                 return SequenceMatcher(None,plake,plakes).ratio()
 
 plate_detector = YOLO(opt.detector_weights)
+plates = db.get_Plake_text()
 plate_recognizer = DTRB(opt.recognizer_weights , opt)
 image = cv2.imread(opt.input_image)
-plates = db.get_Plake_text()
 results = plate_detector.predict(image)
 for result in results:
     for i in range(len(result.boxes.xyxy)):
@@ -58,10 +65,10 @@ for result in results:
             labal = plate_recognizer.predict(plate_image, opt)
             for labal in plates:
                 print(sequenceMatcher(plates[0], labal))
-                if sequenceMatcher(plates[0], labal) > 0.9:
-                    print(f'{" " * 25}\t{True}')
+                if sequenceMatcher(plates[0], labal) > 0.10:
+                    print(f'{True}')
                     break
-                else:
-                    print(f'{" " * 25}\t{False}')
+            else:
+                print(f'{False}')
 
 cv2.imwrite("io/output/image_result.jpg", image)

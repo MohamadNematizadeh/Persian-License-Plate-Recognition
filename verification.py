@@ -4,6 +4,7 @@ from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
 from Creating_data import Database
+
 parser = argparse.ArgumentParser()
 # parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
@@ -44,23 +45,24 @@ image = cv2.imread(opt.input_image)
 results = plate_detector.predict(image)
 for result in results:
     for i in range(len(result.boxes.xyxy)):
-        if result.boxes.conf[i] > opt.threshold:
-            bbox_tensor = result.boxes.xyxy[i]
-            bbox_ndarray = bbox_tensor.cpu().detach().numpy().astype(int)
-            print(bbox_ndarray)
-            x1, y1, x2, y2 = bbox_ndarray
-            plate_image = image[y1:y2, x1:x2].copy()
+                if result.boxes.conf[i] > opt.threshold:
+                    bbox_tensor = result.boxes.xyxy[i]
+                    bbox_ndarray = bbox_tensor.cpu().detach().numpy().astype(int)
+                    print(bbox_ndarray)
+                    x1, y1, x2, y2 = bbox_ndarray
+                    plate_image = image[y1:y2, x1:x2].copy()
 
-            cv2.imwrite(f"io/output/plate_image_result_{i}.jpg", plate_image)
-            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
-            plate_image = cv2.resize(plate_image, (100, 32))
-            plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
-            labal = plate_recognizer.predict(plate_image, opt)
-            for labal in plates:
-                if sequenceMatcher(plates[0], labal) > 0.10:
-                    print(f'{True}')
-                    break
-            else:
-                print(f'{False}')
+                    cv2.imwrite(f"io/output/plate_image_result_{i}.jpg", plate_image)
+                    cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
+                    plate_image = cv2.resize(plate_image, (100, 32))
+                    plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
+                    labal = plate_recognizer.predict(plate_image, opt)
+    for labal in plates:
+                    if sequenceMatcher(plates[2], labal) > 0.90:
+                        print(f'{True}')
+                        break
+    else:
+                        print(f'{False}')
+                        break
 
 cv2.imwrite("io/output/image_result.jpg", image)

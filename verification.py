@@ -3,13 +3,11 @@ import cv2
 from ultralytics import YOLO
 from deep_text_recognition_benchmark.dtrb import DTRB
 from difflib import SequenceMatcher
-from Creating_data import Database
+from database.Creating_data import Database
 
 parser = argparse.ArgumentParser()
-# parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
 parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
-# parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
 """ Data processing """
 parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
 parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
@@ -30,41 +28,42 @@ parser.add_argument('--output_channel', type=int, default=512,
 parser.add_argument('--hidden_size', type=int, default=256, help='the size of the LSTM hidden state')
 parser.add_argument('--detector-weights', type=str, default="weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
 parser.add_argument('--recognizer-weights', type=str, default="weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")
-parser.add_argument('--input-image', type=str, default="io/input/file.jpg")
+parser.add_argument('--input-image', type=str, default="io/input/1.jpg")
 parser.add_argument('--threshold', type=float, default=0.7)
 
 opt = parser.parse_args()
-db = Database()
+
 def sequenceMatcher(plake , plakes):
                 return SequenceMatcher(None,plake,plakes).ratio()
 
+database = Database()
+
 plate_detector = YOLO(opt.detector_weights)
-plates = db.get_Plake_text()
+plates = database.get_Plake_text()
 plate_recognizer = DTRB(opt.recognizer_weights , opt)
 image = cv2.imread(opt.input_image)
 results = plate_detector.predict(image)
+
 for result in results:
     for i in range(len(result.boxes.xyxy)):
-                if result.boxes.conf[i] > opt.threshold:
+        if result.boxes.conf[i] > opt.threshold:
                     bbox_tensor = result.boxes.xyxy[i]
                     bbox_ndarray = bbox_tensor.cpu().detach().numpy().astype(int)
                     print(bbox_ndarray)
                     x1, y1, x2, y2 = bbox_ndarray
                     plate_image = image[y1:y2, x1:x2].copy()
-
                     cv2.imwrite(f"io/output/plate_image_result_{i}.jpg", plate_image)
                     cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 4)
                     plate_image = cv2.resize(plate_image, (100, 32))
                     plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
                     labal = plate_recognizer.predict(plate_image, opt)
-    for labal in plates:
-                    print("test test test test test")
-
-                    if sequenceMatcher(plates[2], labal) > 0.90:
-                        print(f'{True}')
-                        break
-    else:
-                        print(f'{False}')
-                        break
+                    for database_plate in plates:
+                        if sequenceMatcher(database_plate[2], labal) > 0.8:
+                            print('True ✅️ ')
+                            break
+                    else:
+                            print('False ❌ ')
+                            break
+                            
 
 cv2.imwrite("io/output/image_result.jpg", image)

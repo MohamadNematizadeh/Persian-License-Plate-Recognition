@@ -28,7 +28,7 @@ parser.add_argument('--output_channel', type=int, default=512,
 parser.add_argument('--hidden_size', type=int, default=256, help='the size of the LSTM hidden state')
 parser.add_argument('--detector-weights', type=str, default="weigths/yolov8-detector/yolov8-s-license-plate-detector.pt")
 parser.add_argument('--recognizer-weights', type=str, default="weigths/dtrb-recoginzer/dtrb-None-VGG-BiLSTM-CTC-license-plate-recognizer.pth")
-parser.add_argument('--input-image', type=str, default="io/input/1.jpg")
+parser.add_argument('--input-image', type=str, default="io/input/582581_556.jpg")
 parser.add_argument('--threshold', type=float, default=0.6)
 
 opt = parser.parse_args()

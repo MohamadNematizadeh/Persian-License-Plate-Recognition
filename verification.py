@@ -58,6 +58,8 @@ for result in results:
                     plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)
                     labal = plate_recognizer.predict(plate_image, opt)
     for labal in plates:
+                    print("test test test test test")
+
                     if sequenceMatcher(plates[2], labal) > 0.90:
                         print(f'{True}')
                         break

@@ -1,0 +1,2469 @@
+<html lang="en" dir="rtl" class="rtl">
+
+<head>
+    <!-- Title -->
+    <title>دستیارهوشمند تک</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="DexignZone">
+    <meta name="robots" content="">
+    <meta name="keywords"
+        content="هوش مصنوعی, هوشمند, تک ,تشخیص پلاک خودرو, تشخیص چهره">
+    <meta name="description"
+        content="این دستیارهوشمند تک میتواند در یک دوربین هم تشخیص پلاک خودرو انجام و دهد و هم تشخیص چهره">
+    <meta property="og:image" content="/image/icon.png">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" href="/image/icon.png">
+    <link href="css/jqvmap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/chartist.min.css">
+    <link href="css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;family=Roboto:wght@100;300;400;500;700;900&amp;display=swap"
+        rel="stylesheet">
+    <style type="text/css">
+        @font-face {
+        font-family: 'Vazir';
+        src:
+            url('/fonts/Vazir-Regular.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        }
+        .body{
+        font-family: 'Vazir';
+        font-size: 24px;
+        }
+        .apexcharts-canvas {
+            position: relative;
+            user-select: none;
+            /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+        }
+
+
+        /* scrollbar is not visible by default for legend, hence forcing the visibility */
+        .apexcharts-canvas ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 6px;
+        }
+
+        .apexcharts-canvas ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+
+
+        .apexcharts-inner {
+            position: relative;
+        }
+
+        .apexcharts-text tspan {
+            font-family: 'Vazir';
+        }
+
+        .legend-mouseover-inactive {
+            transition: 0.15s ease all;
+            opacity: 0.20;
+        }
+
+        .apexcharts-series-collapsed {
+            opacity: 0;
+        }
+
+        .apexcharts-tooltip {
+            border-radius: 5px;
+            box-shadow: 2px 2px 6px -4px #999;
+            cursor: default;
+            font-size: 14px;
+            left: 62px;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            white-space: nowrap;
+            z-index: 12;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-tooltip.apexcharts-active {
+            opacity: 1;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-tooltip.apexcharts-theme-light {
+            border: 1px solid #e3e3e3;
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .apexcharts-tooltip.apexcharts-theme-dark {
+            color: #fff;
+            background: rgba(30, 30, 30, 0.8);
+        }
+
+        .apexcharts-tooltip * {
+            font-family: inherit;
+        }
+
+
+        .apexcharts-tooltip-title {
+            padding: 6px;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+            background: #ECEFF1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid #333;
+        }
+
+        .apexcharts-tooltip-text-value,
+        .apexcharts-tooltip-text-z-value {
+            display: inline-block;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .apexcharts-tooltip-text-z-label:empty,
+        .apexcharts-tooltip-text-z-value:empty {
+            display: none;
+        }
+
+        .apexcharts-tooltip-text-value,
+        .apexcharts-tooltip-text-z-value {
+            font-weight: 600;
+        }
+
+        .apexcharts-tooltip-marker {
+            width: 12px;
+            height: 12px;
+            position: relative;
+            top: 0px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .apexcharts-tooltip-series-group {
+            padding: 0 10px;
+            display: none;
+            text-align: left;
+            justify-content: left;
+            align-items: center;
+        }
+
+        .apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+            opacity: 1;
+        }
+
+        .apexcharts-tooltip-series-group.apexcharts-active,
+        .apexcharts-tooltip-series-group:last-child {
+            padding-bottom: 4px;
+        }
+
+        .apexcharts-tooltip-series-group-hidden {
+            opacity: 0;
+            height: 0;
+            line-height: 0;
+            padding: 0 !important;
+        }
+
+        .apexcharts-tooltip-y-group {
+            padding: 6px 0 5px;
+        }
+
+        .apexcharts-tooltip-box,
+        .apexcharts-custom-tooltip {
+            padding: 4px 8px;
+        }
+
+        .apexcharts-tooltip-boxPlot {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .apexcharts-tooltip-box>div {
+            margin: 4px 0;
+        }
+
+        .apexcharts-tooltip-box span.value {
+            font-weight: bold;
+        }
+
+        .apexcharts-tooltip-rangebar {
+            padding: 5px 8px;
+        }
+
+        .apexcharts-tooltip-rangebar .category {
+            font-weight: 600;
+            color: #777;
+        }
+
+        .apexcharts-tooltip-rangebar .series-name {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .apexcharts-xaxistooltip {
+            opacity: 0;
+            padding: 9px 10px;
+            pointer-events: none;
+            color: #373d3f;
+            font-size: 13px;
+            text-align: center;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+            background: #ECEFF1;
+            border: 1px solid #90A4AE;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-xaxistooltip.apexcharts-theme-dark {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .apexcharts-xaxistooltip:after,
+        .apexcharts-xaxistooltip:before {
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .apexcharts-xaxistooltip:after {
+            border-color: rgba(236, 239, 241, 0);
+            border-width: 6px;
+            margin-left: -6px;
+        }
+
+        .apexcharts-xaxistooltip:before {
+            border-color: rgba(144, 164, 174, 0);
+            border-width: 7px;
+            margin-left: -7px;
+        }
+
+        .apexcharts-xaxistooltip-bottom:after,
+        .apexcharts-xaxistooltip-bottom:before {
+            bottom: 100%;
+        }
+
+        .apexcharts-xaxistooltip-top:after,
+        .apexcharts-xaxistooltip-top:before {
+            top: 100%;
+        }
+
+        .apexcharts-xaxistooltip-bottom:after {
+            border-bottom-color: #ECEFF1;
+        }
+
+        .apexcharts-xaxistooltip-bottom:before {
+            border-bottom-color: #90A4AE;
+        }
+
+        .apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+            border-bottom-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+            border-bottom-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-xaxistooltip-top:after {
+            border-top-color: #ECEFF1
+        }
+
+        .apexcharts-xaxistooltip-top:before {
+            border-top-color: #90A4AE;
+        }
+
+        .apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+            border-top-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+            border-top-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-xaxistooltip.apexcharts-active {
+            opacity: 1;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-yaxistooltip {
+            opacity: 0;
+            padding: 4px 10px;
+            pointer-events: none;
+            color: #373d3f;
+            font-size: 13px;
+            text-align: center;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+            background: #ECEFF1;
+            border: 1px solid #90A4AE;
+        }
+
+        .apexcharts-yaxistooltip.apexcharts-theme-dark {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .apexcharts-yaxistooltip:after,
+        .apexcharts-yaxistooltip:before {
+            top: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .apexcharts-yaxistooltip:after {
+            border-color: rgba(236, 239, 241, 0);
+            border-width: 6px;
+            margin-top: -6px;
+        }
+
+        .apexcharts-yaxistooltip:before {
+            border-color: rgba(144, 164, 174, 0);
+            border-width: 7px;
+            margin-top: -7px;
+        }
+
+        .apexcharts-yaxistooltip-left:after,
+        .apexcharts-yaxistooltip-left:before {
+            left: 100%;
+        }
+
+        .apexcharts-yaxistooltip-right:after,
+        .apexcharts-yaxistooltip-right:before {
+            right: 100%;
+        }
+
+        .apexcharts-yaxistooltip-left:after {
+            border-left-color: #ECEFF1;
+        }
+
+        .apexcharts-yaxistooltip-left:before {
+            border-left-color: #90A4AE;
+        }
+
+        .apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+            border-left-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+            border-left-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-yaxistooltip-right:after {
+            border-right-color: #ECEFF1;
+        }
+
+        .apexcharts-yaxistooltip-right:before {
+            border-right-color: #90A4AE;
+        }
+
+        .apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+            border-right-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+            border-right-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .apexcharts-yaxistooltip.apexcharts-active {
+            opacity: 1;
+        }
+
+        .apexcharts-yaxistooltip-hidden {
+            display: none;
+        }
+
+        .apexcharts-xcrosshairs,
+        .apexcharts-ycrosshairs {
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-xcrosshairs.apexcharts-active,
+        .apexcharts-ycrosshairs.apexcharts-active {
+            opacity: 1;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-ycrosshairs-hidden {
+            opacity: 0;
+        }
+
+        .apexcharts-selection-rect {
+            cursor: move;
+        }
+
+        .svg_select_boundingRect,
+        .svg_select_points_rot {
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .apexcharts-selection-rect+g .svg_select_boundingRect,
+        .apexcharts-selection-rect+g .svg_select_points_rot {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .apexcharts-selection-rect+g .svg_select_points_l,
+        .apexcharts-selection-rect+g .svg_select_points_r {
+            cursor: ew-resize;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .svg_select_points {
+            fill: #efefef;
+            stroke: #333;
+            rx: 2;
+        }
+
+        .apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+            cursor: crosshair
+        }
+
+        .apexcharts-svg.apexcharts-zoomable.hovering-pan {
+            cursor: move
+        }
+
+        .apexcharts-zoom-icon,
+        .apexcharts-zoomin-icon,
+        .apexcharts-zoomout-icon,
+        .apexcharts-reset-icon,
+        .apexcharts-pan-icon,
+        .apexcharts-selection-icon,
+        .apexcharts-menu-icon,
+        .apexcharts-toolbar-custom-icon {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            line-height: 24px;
+            color: #6E8192;
+            text-align: center;
+        }
+
+        .apexcharts-zoom-icon svg,
+        .apexcharts-zoomin-icon svg,
+        .apexcharts-zoomout-icon svg,
+        .apexcharts-reset-icon svg,
+        .apexcharts-menu-icon svg {
+            fill: #6E8192;
+        }
+
+        .apexcharts-selection-icon svg {
+            fill: #444;
+            transform: scale(0.76)
+        }
+
+        .apexcharts-theme-dark .apexcharts-zoom-icon svg,
+        .apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+        .apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+        .apexcharts-theme-dark .apexcharts-reset-icon svg,
+        .apexcharts-theme-dark .apexcharts-pan-icon svg,
+        .apexcharts-theme-dark .apexcharts-selection-icon svg,
+        .apexcharts-theme-dark .apexcharts-menu-icon svg,
+        .apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+            fill: #f3f4f5;
+        }
+
+        .apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+        .apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+        .apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+            fill: #008FFB;
+        }
+
+        .apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+        .apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+        .apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+        .apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+        .apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+        .apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+            fill: #333;
+        }
+
+        .apexcharts-selection-icon,
+        .apexcharts-menu-icon {
+            position: relative;
+        }
+
+        .apexcharts-reset-icon {
+            margin-left: 5px;
+        }
+
+        .apexcharts-zoom-icon,
+        .apexcharts-reset-icon,
+        .apexcharts-menu-icon {
+            transform: scale(0.85);
+        }
+
+        .apexcharts-zoomin-icon,
+        .apexcharts-zoomout-icon {
+            transform: scale(0.7)
+        }
+
+        .apexcharts-zoomout-icon {
+            margin-right: 3px;
+        }
+
+        .apexcharts-pan-icon {
+            transform: scale(0.62);
+            position: relative;
+            left: 1px;
+            top: 0px;
+        }
+
+        .apexcharts-pan-icon svg {
+            fill: #fff;
+            stroke: #6E8192;
+            stroke-width: 2;
+        }
+
+        .apexcharts-pan-icon.apexcharts-selected svg {
+            stroke: #008FFB;
+        }
+
+        .apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+            stroke: #333;
+        }
+
+        .apexcharts-toolbar {
+            position: absolute;
+            z-index: 11;
+            max-width: 176px;
+            text-align: right;
+            border-radius: 3px;
+            padding: 0px 6px 2px 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .apexcharts-menu {
+            background: #fff;
+            position: absolute;
+            top: 100%;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 3px;
+            right: 10px;
+            opacity: 0;
+            min-width: 110px;
+            transition: 0.15s ease all;
+            pointer-events: none;
+        }
+
+        .apexcharts-menu.apexcharts-menu-open {
+            opacity: 1;
+            pointer-events: all;
+            transition: 0.15s ease all;
+        }
+
+        .apexcharts-menu-item {
+            padding: 6px 7px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .apexcharts-theme-light .apexcharts-menu-item:hover {
+            background: #eee;
+        }
+
+        .apexcharts-theme-dark .apexcharts-menu {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        @media screen and (min-width: 768px) {
+            .apexcharts-canvas:hover .apexcharts-toolbar {
+                opacity: 1;
+            }
+        }
+
+        .apexcharts-datalabel.apexcharts-element-hidden {
+            opacity: 0;
+        }
+
+        .apexcharts-pie-label,
+        .apexcharts-datalabels,
+        .apexcharts-datalabel,
+        .apexcharts-datalabel-label,
+        .apexcharts-datalabel-value {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .apexcharts-pie-label-delay {
+            opacity: 0;
+            animation-name: opaque;
+            animation-duration: 0.3s;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease;
+        }
+
+        .apexcharts-canvas .apexcharts-element-hidden {
+            opacity: 0;
+        }
+
+        .apexcharts-hide .apexcharts-series-points {
+            opacity: 0;
+        }
+
+        .apexcharts-gridline,
+        .apexcharts-annotation-rect,
+        .apexcharts-tooltip .apexcharts-marker,
+        .apexcharts-area-series .apexcharts-area,
+        .apexcharts-line,
+        .apexcharts-zoom-rect,
+        .apexcharts-toolbar svg,
+        .apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+        .apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+        .apexcharts-radar-series path,
+        .apexcharts-radar-series polygon {
+            pointer-events: none;
+        }
+
+
+        /* markers */
+
+        .apexcharts-marker {
+            transition: 0.15s ease all;
+        }
+
+        @keyframes opaque {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+
+        /* Resize generated styles */
+
+        @keyframes resizeanim {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .resize-triggers {
+            animation: 1ms resizeanim;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .resize-triggers,
+        .resize-triggers>div,
+        .contract-trigger:before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .resize-triggers>div {
+            background: #eee;
+            overflow: auto;
+        }
+
+        .contract-trigger:before {
+            width: 200%;
+            height: 200%;
+        }
+    </style>
+</head>
+
+<body data-typography="poppins" data-theme-version="dark" data-layout="vertical" data-nav-headerbg="color_1"
+    data-headerbg="color_1" data-sidebar-style="overlay" data-sidebarbg="color_1" data-sidebar-position="fixed"
+    data-header-position="fixed" data-container="wide" direction="rtl" data-green="color_1">
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader" style="display: none;">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper" class="show menu-toggle">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="index.html" class="brand-logo">
+                <img src="image\icon.png" style="height: 56;" alt="">
+            </a>
+            <div class="nav-control">
+                <div class="hamburger is-active">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Chat box start
+        ***********************************-->
+        <div class="chatbox">
+            <div class="chatbox-close"></div>
+            <div class="custom-tab-1">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#notes" aria-selected="false" tabindex="-1"
+                            role="tab">Notes</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#alerts" aria-selected="false" tabindex="-1"
+                            role="tab">Alerts</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#chat" aria-selected="true"
+                            role="tab">Chat</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="chat" role="tabpanel">
+                        <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+                            <div class="card-header chat-list-header text-center">
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                x="4" y="11" width="16" height="2" rx="1"></rect>
+                                        </g>
+                                    </svg></a>
+                                <div>
+                                    <h6 class="mb-1">Chat List</h6>
+                                    <p class="mb-0">Show All</p>
+                                </div>
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg></a>
+                            </div>
+                            <div class="card-body contacts_body p-0 dz-scroll  " id="DZ_W_Contacts_Body">
+                                <ul class="contacts">
+                                    <li class="name-first-letter">A</li>
+                                    <li class="active dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Archie Parker</span>
+                                                <p>Kalid is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Alfie Mason</span>
+                                                <p>Taherah left 7 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>AharlieKane</span>
+                                                <p>Sami is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Athan Jacoby</span>
+                                                <p>Nargis left 30 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">B</li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Bashid Samim</span>
+                                                <p>Rashid left 50 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Breddie Ronan</span>
+                                                <p>Kalid is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Ceorge Carson</span>
+                                                <p>Taherah left 7 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">D</li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Darry Parker</span>
+                                                <p>Sami is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Denry Hunter</span>
+                                                <p>Nargis left 30 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">J</li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Jack Ronan</span>
+                                                <p>Rashid left 50 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/1.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Jacob Tucker</span>
+                                                <p>Kalid is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/2.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>James Logan</span>
+                                                <p>Taherah left 7 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/3.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Joshua Weston</span>
+                                                <p>Sami is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">O</li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/4.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Oliver Acker</span>
+                                                <p>Nargis left 30 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dz-chat-user">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont">
+                                                <img src="images/avatar/5.jpg" class="rounded-circle user_img" alt="">
+                                                <span class="online_icon offline"></span>
+                                            </div>
+                                            <div class="user_info">
+                                                <span>Oscar Weston</span>
+                                                <p>Rashid left 50 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card chat dz-chat-history-box d-none">
+                            <div class="card-header chat-list-header text-center">
+                                <a href="#" class="dz-chat-history-back">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="18px" height="18px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(15.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-15.000000, -12.000000) "
+                                                x="14" y="7" width="2" height="10" rx="1"></rect>
+                                            <path
+                                                d="M3.7071045,15.7071045 C3.3165802,16.0976288 2.68341522,16.0976288 2.29289093,15.7071045 C1.90236664,15.3165802 1.90236664,14.6834152 2.29289093,14.2928909 L8.29289093,8.29289093 C8.67146987,7.914312 9.28105631,7.90106637 9.67572234,8.26284357 L15.6757223,13.7628436 C16.0828413,14.136036 16.1103443,14.7686034 15.7371519,15.1757223 C15.3639594,15.5828413 14.7313921,15.6103443 14.3242731,15.2371519 L9.03007346,10.3841355 L3.7071045,15.7071045 Z"
+                                                fill="#000000" fill-rule="nonzero"
+                                                transform="translate(9.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-9.000001, -11.999997) ">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </a>
+                                <div>
+                                    <h6 class="mb-1">Chat with Khelesh</h6>
+                                    <p class="mb-0 text-success">Online</p>
+                                </div>
+                                <div class="dropdown">
+                                    <a href="#" data-bs-toggle="dropdown" aria-expanded="false"><svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                            viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                                <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                                <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                            </g>
+                                        </svg></a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li class="dropdown-item"><i class="fa fa-user-circle text-green me-2"></i>
+                                            View profile</li>
+                                        <li class="dropdown-item"><i class="fa fa-users text-green me-2"></i> Add to
+                                            close friends</li>
+                                        <li class="dropdown-item"><i class="fa fa-plus text-green me-2"></i> Add to
+                                            group</li>
+                                        <li class="dropdown-item"><i class="fa fa-ban text-green me-2"></i> Block</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body msg_card_body dz-scroll" id="DZ_W_Contacts_Body3"
+                                style="height: 709px;">
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        Hi, how are you samim?
+                                        <span class="msg_time">8:40 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        Hi Khalid i am good tnx how about you?
+                                        <span class="msg_time_send">8:55 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        I am good too, thank you for your chat template
+                                        <span class="msg_time">9:00 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        You are welcome
+                                        <span class="msg_time_send">9:05 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        I am looking for your next templates
+                                        <span class="msg_time">9:07 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        Ok, thank you have a good day
+                                        <span class="msg_time_send">9:10 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        Bye, see you
+                                        <span class="msg_time">9:12 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        Hi, how are you samim?
+                                        <span class="msg_time">8:40 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        Hi Khalid i am good tnx how about you?
+                                        <span class="msg_time_send">8:55 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        I am good too, thank you for your chat template
+                                        <span class="msg_time">9:00 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        You are welcome
+                                        <span class="msg_time_send">9:05 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        I am looking for your next templates
+                                        <span class="msg_time">9:07 AM, Today</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                        Ok, thank you have a good day
+                                        <span class="msg_time_send">9:10 AM, Today</span>
+                                    </div>
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="img_cont_msg">
+                                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt="">
+                                    </div>
+                                    <div class="msg_cotainer">
+                                        Bye, see you
+                                        <span class="msg_time">9:12 AM, Today</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer type_msg">
+                                <div class="input-group">
+                                    <textarea class="form-control" placeholder="Type your message..."></textarea>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-green"><i
+                                                class="fa fa-location-arrow"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="alerts" role="tabpanel">
+                        <div class="card mb-sm-3 mb-md-0 contacts_card">
+                            <div class="card-header chat-list-header text-center">
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg></a>
+                                <div>
+                                    <h6 class="mb-1">Notications</h6>
+                                    <p class="mb-0">Show All</p>
+                                </div>
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path
+                                                d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+                                                fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg></a>
+                            </div>
+                            <div class="card-body contacts_body p-0 dz-scroll" id="DZ_W_Contacts_Body1">
+                                <ul class="contacts">
+                                    <li class="name-first-letter">SEVER STATUS</li>
+                                    <li class="active">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont green">KK</div>
+                                            <div class="user_info">
+                                                <span>David Nester Birthday</span>
+                                                <p class="text-green">Today</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">SOCIAL</li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont success">RU<i class="icon fa-birthday-cake"></i></div>
+                                            <div class="user_info">
+                                                <span>Perfection Simplified</span>
+                                                <p>Jame Smith commented on your status</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="name-first-letter">SEVER STATUS</li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont green">AU<i class="icon fa fa-user-plus"></i></div>
+                                            <div class="user_info">
+                                                <span>AharlieKane</span>
+                                                <p>Sami is online</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="img_cont info">MO<i class="icon fa fa-user-plus"></i></div>
+                                            <div class="user_info">
+                                                <span>Athan Jacoby</span>
+                                                <p>Nargis left 30 mins ago</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="notes" role="tabpanel">
+                        <div class="card mb-sm-3 mb-md-0 note_card">
+                            <div class="card-header chat-list-header text-center">
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"></rect>
+                                            <rect fill="#000000" opacity="0.3"
+                                                transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) "
+                                                x="4" y="11" width="16" height="2" rx="1"></rect>
+                                        </g>
+                                    </svg></a>
+                                <div>
+                                    <h6 class="mb-1">Notes</h6>
+                                    <p class="mb-0">Add New Nots</p>
+                                </div>
+                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path
+                                                d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
+                                                fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg></a>
+                            </div>
+                            <div class="card-body contacts_body p-0 dz-scroll" id="DZ_W_Contacts_Body2">
+                                <ul class="contacts">
+                                    <li class="active">
+                                        <div class="d-flex bd-highlight">
+                                            <div class="user_info">
+                                                <span>New order placed..</span>
+                                                <p>10 Aug 2020</p>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a href="#" class="btn btn-green btn-xs sharp me-1"><i
+                                                        class="fa fa-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="user_info">
+                                                <span>Youtube, a video-sharing website..</span>
+                                                <p>10 Aug 2020</p>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a href="#" class="btn btn-green btn-xs sharp me-1"><i
+                                                        class="fa fa-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="user_info">
+                                                <span>john just buy your product..</span>
+                                                <p>10 Aug 2020</p>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a href="#" class="btn btn-green btn-xs sharp me-1"><i
+                                                        class="fa fa-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="user_info">
+                                                <span>Athan Jacoby</span>
+                                                <p>10 Aug 2020</p>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a href="#" class="btn btn-green btn-xs sharp me-1"><i
+                                                        class="fa fa-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-xs sharp"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Chat box End
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                            <div class="dashboard_bar">
+                            </div>
+                        </div>
+                        <ul class="navbar-nav header-right">
+                            <li class="nav-item">
+                                <div class="input-group search-area d-xl-inline-flex d-none">
+                                    <input type="text" class="form-control" placeholder="Search here"
+                                        aria-label="Username" aria-describedby="header-search">
+                                    <span class="input-group-text" id="header-search">
+                                        <a href="javascript:void(0);">
+                                            <i class="flaticon-381-search-2"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown notification_dropdown">
+                                <a class="nav-link  ai-icon" href="javascript:void(0)" role="button"
+                                    data-bs-toggle="dropdown">
+                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.4525 25.6682C11.0606 27.0357 12.4091 28 14.0006 28C15.5922 28 16.9407 27.0357 17.5488 25.6682C16.4266 25.7231 15.2596 25.76 14.0006 25.76C12.7418 25.76 11.5748 25.7231 10.4525 25.6682Z"
+                                            fill="#3E4954"></path>
+                                        <path
+                                            d="M26.3531 19.74C24.8769 17.8785 22.3995 14.2195 22.3995 10.64C22.3995 7.09073 20.1192 3.89758 16.7995 2.72382C16.7592 1.21406 15.5183 0 14.0006 0C12.4819 0 11.2421 1.21406 11.2017 2.72382C7.88095 3.89758 5.60064 7.09073 5.60064 10.64C5.60064 14.2207 3.12434 17.8785 1.64706 19.74C1.15427 20.3616 1.00191 21.1825 1.24051 21.9363C1.47348 22.6721 2.05361 23.2422 2.79282 23.4595C4.08755 23.8415 6.20991 24.2715 9.44676 24.491C10.8479 24.5851 12.3543 24.64 14.0007 24.64C15.646 24.64 17.1524 24.5851 18.5535 24.491C21.7914 24.2715 23.9127 23.8415 25.2085 23.4595C25.9477 23.2422 26.5268 22.6722 26.7597 21.9363C26.9983 21.1825 26.8448 20.3616 26.3531 19.74Z"
+                                            fill="#3E4954"></path>
+                                    </svg>
+                                    <span class="badge light text-white bg-green">3</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-start">
+                                    <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3 height380">
+                                        <ul class="timeline">
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2">
+                                                        <img alt="image" width="50" src="images/avatar/1.jpg">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Dr sultads Send you Photo</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2 media-info">
+                                                        KG
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Resport created successfully</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2 media-success">
+                                                        <i class="fa fa-home"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Reminder : Treatment Time!</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2">
+                                                        <img alt="image" width="50" src="images/avatar/1.jpg">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Dr sultads Send you Photo</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2 media-danger">
+                                                        KG
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Resport created successfully</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media me-2 media-green">
+                                                        <i class="fa fa-home"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Reminder : Treatment Time!</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="all-notification" href="javascript:void(0)">See all notifications <i
+                                            class="ti-arrow-right"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown notification_dropdown">
+                                <a class="nav-link bell bell-link" href="javascript:void(0)">
+                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22.4605 3.84888H5.31688C4.64748 3.84961 4.00571 4.11586 3.53237 4.58919C3.05903 5.06253 2.79279 5.7043 2.79205 6.3737V18.1562C2.79279 18.8256 3.05903 19.4674 3.53237 19.9407C4.00571 20.4141 4.64748 20.6803 5.31688 20.6811C5.54005 20.6812 5.75404 20.7699 5.91184 20.9277C6.06964 21.0855 6.15836 21.2995 6.15849 21.5227V23.3168C6.15849 23.6215 6.24118 23.9204 6.39774 24.1818C6.5543 24.4431 6.77886 24.6571 7.04747 24.8009C7.31608 24.9446 7.61867 25.0128 7.92298 24.9981C8.22729 24.9834 8.52189 24.8863 8.77539 24.7173L14.6173 20.8224C14.7554 20.7299 14.918 20.6807 15.0842 20.6811H19.187C19.7383 20.68 20.2743 20.4994 20.7137 20.1664C21.1531 19.8335 21.4721 19.3664 21.6222 18.8359L24.8966 7.05011C24.9999 6.67481 25.0152 6.28074 24.9414 5.89856C24.8675 5.51637 24.7064 5.15639 24.4707 4.84663C24.235 4.53687 23.931 4.28568 23.5823 4.11263C23.2336 3.93957 22.8497 3.84931 22.4605 3.84888ZM23.2733 6.60304L20.0006 18.3847C19.95 18.5614 19.8432 18.7168 19.6964 18.8275C19.5496 18.9381 19.3708 18.9979 19.187 18.9978H15.0842C14.5856 18.9972 14.0981 19.1448 13.6837 19.4219L7.84171 23.3168V21.5227C7.84097 20.8533 7.57473 20.2115 7.10139 19.7382C6.62805 19.2648 5.98628 18.9986 5.31688 18.9978C5.09371 18.9977 4.87972 18.909 4.72192 18.7512C4.56412 18.5934 4.4754 18.3794 4.47527 18.1562V6.3737C4.4754 6.15054 4.56412 5.93655 4.72192 5.77874C4.87972 5.62094 5.09371 5.53223 5.31688 5.5321H22.4605C22.5905 5.53243 22.7188 5.56277 22.8353 5.62076C22.9517 5.67875 23.0532 5.76283 23.1318 5.86646C23.2105 5.97008 23.2642 6.09045 23.2887 6.21821C23.3132 6.34597 23.308 6.47766 23.2733 6.60304Z"
+                                            fill="#3E4954"></path>
+                                        <path
+                                            d="M7.84173 11.4233H12.0498C12.273 11.4233 12.4871 11.3347 12.6449 11.1768C12.8027 11.019 12.8914 10.8049 12.8914 10.5817C12.8914 10.3585 12.8027 10.1444 12.6449 9.98661C12.4871 9.82878 12.273 9.74011 12.0498 9.74011H7.84173C7.61852 9.74011 7.40446 9.82878 7.24662 9.98661C7.08879 10.1444 7.00012 10.3585 7.00012 10.5817C7.00012 10.8049 7.08879 11.019 7.24662 11.1768C7.40446 11.3347 7.61852 11.4233 7.84173 11.4233Z"
+                                            fill="#3E4954"></path>
+                                        <path
+                                            d="M15.4162 13.1066H7.84173C7.61852 13.1066 7.40446 13.1952 7.24662 13.3531C7.08879 13.5109 7.00012 13.725 7.00012 13.9482C7.00012 14.1714 7.08879 14.3855 7.24662 14.5433C7.40446 14.7011 7.61852 14.7898 7.84173 14.7898H15.4162C15.6394 14.7898 15.8535 14.7011 16.0113 14.5433C16.1692 14.3855 16.2578 14.1714 16.2578 13.9482C16.2578 13.725 16.1692 13.5109 16.0113 13.3531C15.8535 13.1952 15.6394 13.1066 15.4162 13.1066Z"
+                                            fill="#3E4954"></path>
+                                    </svg>
+                                    <span class="badge light text-white bg-green">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown header-profile">
+                                <a class="nav-link" href="javascript:void(0)" role="button" data-bs-toggle="dropdown">
+                                    <div class="header-info">
+                                        <span class="text-black"><strong>David Heree</strong></span>
+                                        <p class="fs-12 mb-0">Super Admin</p>
+                                    </div>
+                                    <img src="images/profile/17.jpg" width="20" alt="">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-start">
+                                    <a href="app-profile.html" class="dropdown-item ai-icon">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-green"
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        <span class="ms-2">Profile </span>
+                                    </a>
+                                    <a href="email-inbox.html" class="dropdown-item ai-icon">
+                                        <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success"
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                            </path>
+                                            <polyline points="22,6 12,13 2,6"></polyline>
+                                        </svg>
+                                        <span class="ms-2">Inbox </span>
+                                    </a>
+                                    <a href="page-login.html" class="dropdown-item ai-icon">
+                                        <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+                                            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                        </svg>
+                                        <span class="ms-2">Logout </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="deznav">
+            <div class="deznav-scroll mm-active">
+                <ul class="metismenu mm-show" id="menu">
+                    <li class=""><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                            <i class="flaticon-381-home"></i>
+                            <span class="nav-text"  style="font-family: Vazir;">خانه</span>
+                        </a>
+                    </li>
+                    <li class=""><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                            <i class="flaticon-381-layer"></i>
+
+                            <span class="nav-text"  style="font-family: Vazir;"> مدیریت اپلیکشن ها</span>
+                        </a>
+                        <ul aria-expanded="false" class="mm-collapse" style="height: 0px;">
+                            <li><a href="Face Recognition.html"  style="font-family: Vazir;">اپلیکشن تشخیص چهره</a></li>
+                            <li><a href="plate.html"  style="font-family: Vazir;">اپلیکشن تشخیص پلاک خودرو</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="has-arrow ai-icon" href="Camera.html" aria-expanded="false">
+                        <i class="flaticon-381-television"></i>
+                        <span class="nav-text"  style="font-family: Vazir;">مدیریت دوربین ها</span>
+                    </a>
+                </li>
+                <li><a class="has-arrow ai-icon" href="users.html" aria-expanded="false">
+                        <i class="flaticon-381-user"></i>
+                        <span class="nav-text"  style="font-family: Vazir;">مدیریت کاربران</span>
+                    </a>
+                </li>
+                    <div class="copyright">
+                        <p><strong>Qerza Job Portal Admin Dashboard</strong> © 2023 All Rights Reserved</p>
+                        <p>Made with <span class="heart"></span> by DexignZone</p>
+                    </div>
+            </div>
+        </div>
+        <div class="content-body" style="min-height: 975px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-9 col-xxl-8">
+                        <div class="row">
+                            
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title" style="font-family: Vazir;">دوربین ها</h4>
+                                        <br>
+                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-plus text-primary me-2"></i></a>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-responsive-md">
+                                                <thead>
+                                                        <th style="font-family: Vazir;">واحد</th>
+                                                        <th style="font-family: Vazir;"> نام دوربین</th>
+                                                        <th style="font-family: Vazir;"> ای پیا دوربین</th>
+                                                        <th style="font-family: Vazir;">وضیت</th>
+                                                        <th style="font-family: Vazir;">جایگاه دوربین</th>
+                                                        <th style="font-family: Vazir;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <tr>
+                                                            <td><strong>1</strong></td>
+                                                        </td>
+                                                            <td><strong style="font-family: Vazir;">محمد نعمتی زاده</strong></td>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</strong></td>
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</strong></td>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <tr>
+                                                            <td><strong>2</strong></td>
+
+                                                        </td>
+                                                            <td><strong style="font-family: Vazir;">محمد نعمتی زاده</strong></td>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</td></strong>
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</td></strong>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <tr>
+                                                            <td><strong>3</strong></td>
+
+                                                        </td>
+                                                            <td><strong style="font-family: Vazir;">محمد نعمتی زاده</strong></td>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</td></strong>
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</strong></td>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title" style="font-family: Vazir;">ویدیو و عکس ها</h4>
+                                        <br>
+                                        <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-plus text-primary me-2"></i></a>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-responsive-md">
+                                                <thead>
+                                                    <th style="font-family: Vazir;">واحد</th>
+                                                        <th style="font-family: Vazir;">عکس و ویدیو</th>
+                                                        <th style="font-family: Vazir;">نام</th>
+                                                        <th style="font-family: Vazir;">تاریخ</th>
+                                                        <th style="font-family: Vazir;">ساعت</th>
+                                                        <th style="font-family: Vazir;"></th>
+
+
+                                                        
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <tr>
+                                                            
+                                                        <td><strong style="font-family: Vazir;">1</strong></td>
+                                                        <td> <img src="image\img0.png"
+                                                            style="border-radius: 44px; height: 55px;"  alt="" ></td>
+                                                    
+
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</td></strong>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</td></strong>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <tr>
+                                                            <td><strong style="font-family: Vazir;">1</strong></td>
+                                                        <td> <img src="image\img0.png"
+                                                            style="border-radius: 44px; height: 55px;"  alt="" ></td>
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</td></strong>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</td></strong>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <tr>
+                                                            <td><strong style="font-family: Vazir;">1</strong></td>
+                                                        <td> <img src="image\img0.png"
+                                                            style="border-radius: 44px; height: 55px;"  alt="" ></td>
+                                                            <td> <strong style="font-family: Vazir;">بخش داخلی</td></strong>
+                                            
+                                                            <td><strong style="font-family: Vazir;">0915518454</strong> </td>
+                                                            <td> <strong style="font-family: Vazir;">فعال</td></strong>
+
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+    <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p style="font-family: Vazir;">Copyright © Designed &amp; Developed by <a href="#" target="_blank">محمد نعمتی زاده </a>
+                    2023</p>
+            </div>
+        </div>
+    <!--**********************************
+            Footer end
+        ***********************************-->
+
+    <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+    <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="js/global.min.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/chart.bundle.min.js"></script>
+    <script src="js/owl.carousel.js"></script>
+
+    <!-- Chart piety plugin files -->
+    <script src="js/jquery.peity.min.js"></script>
+
+    <!-- Apex Chart -->
+    <script src="js/apexchart.js"></script>
+
+    <!-- Dashboard 1 -->
+    <script src="js/dashboard-1.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/deznav-init.js"></script>
+    <script src="js/demo.js"></script>
+    <!-- <script src="js/styleSwitcher.js"></script> -->
+    <div class="sidebar-right">
+
+        <div class="sidebar-right-inner">
+            <h4>Pick your style <a class="btn btn-green btn-sm pull-right" href="javascript:void(0);"
+                    onclick="deleteAllCookie()">Delete All Cookie</a></h4>
+            <div class="admin-settings ps ps--active-y">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Background</p>
+                        <div class="dropdown bootstrap-select default-select form-control"><select
+                                class="default-select form-control" id="theme_version" name="theme_version">
+                                <option value="disabled selected hidden">Choose Mode</option>
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-2"
+                                aria-haspopup="listbox" aria-expanded="false" title="Dark" data-id="theme_version">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Dark</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 729.307px; overflow: hidden; min-height: 0px;">
+                                <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1"
+                                    aria-activedescendant="bs-select-2-2"
+                                    style="max-height: 713.307px; overflow-y: auto; min-height: 0px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li><a role="option" class="dropdown-item" id="bs-select-2-0" tabindex="0"><span
+                                                    class="text">Choose Mode</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-2-1" tabindex="0"><span
+                                                    class="text">Light</span></a></li>
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-2-2" tabindex="0"
+                                                aria-setsize="3" aria-posinset="3" aria-selected="true"><span
+                                                    class="text">Dark</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>green Color</p>
+                        <div><span data-placement="top" data-toggle="tooltip" title="Color 1"><input
+                                    class="chk-col-green filled-in" id="green_color_1" name="green_bg" type="radio"
+                                    value="color_1"> <label for="green_color_1" class="bg-label-pattern"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_2" name="green_bg"
+                                    type="radio" value="color_2"> <label for="green_color_2"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_3" name="green_bg"
+                                    type="radio" value="color_3"> <label for="green_color_3"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_4" name="green_bg"
+                                    type="radio" value="color_4"> <label for="green_color_4"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_5" name="green_bg"
+                                    type="radio" value="color_5"> <label for="green_color_5"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_6" name="green_bg"
+                                    type="radio" value="color_6"> <label for="green_color_6"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_7" name="green_bg"
+                                    type="radio" value="color_7"> <label for="green_color_7"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_8" name="green_bg"
+                                    type="radio" value="color_8"> <label for="green_color_8"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_9" name="green_bg"
+                                    type="radio" value="color_9"> <label for="green_color_9"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_10" name="green_bg"
+                                    type="radio" value="color_10"> <label for="green_color_10"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_11" name="green_bg"
+                                    type="radio" value="color_11"> <label for="green_color_11"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_12" name="green_bg"
+                                    type="radio" value="color_12"> <label for="green_color_12"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_13" name="green_bg"
+                                    type="radio" value="color_13"> <label for="green_color_13"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_14" name="green_bg"
+                                    type="radio" value="color_14"> <label for="green_color_14"></label>
+                            </span><span><input class="chk-col-green filled-in" id="green_color_15" name="green_bg"
+                                    type="radio" value="color_15"> <label for="green_color_15"></label></span></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Navigation Header</p>
+                        <div><span><input class="chk-col-green filled-in" id="nav_header_color_1"
+                                    name="navigation_header" type="radio" value="color_1"> <label
+                                    for="nav_header_color_1" class="bg-label-pattern"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_2" name="navigation_header"
+                                    type="radio" value="color_2"> <label for="nav_header_color_2"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_3"
+                                    name="navigation_header" type="radio" value="color_3"> <label
+                                    for="nav_header_color_3"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_4" name="navigation_header"
+                                    type="radio" value="color_4"> <label for="nav_header_color_4"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_5"
+                                    name="navigation_header" type="radio" value="color_5"> <label
+                                    for="nav_header_color_5"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_6" name="navigation_header"
+                                    type="radio" value="color_6"> <label for="nav_header_color_6"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_7"
+                                    name="navigation_header" type="radio" value="color_7"> <label
+                                    for="nav_header_color_7"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_8" name="navigation_header"
+                                    type="radio" value="color_8"> <label for="nav_header_color_8"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_9"
+                                    name="navigation_header" type="radio" value="color_9"> <label
+                                    for="nav_header_color_9"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_10" name="navigation_header"
+                                    type="radio" value="color_10"> <label for="nav_header_color_10"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_11"
+                                    name="navigation_header" type="radio" value="color_11"> <label
+                                    for="nav_header_color_11"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_12" name="navigation_header"
+                                    type="radio" value="color_12"> <label for="nav_header_color_12"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_13"
+                                    name="navigation_header" type="radio" value="color_13"> <label
+                                    for="nav_header_color_13"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="nav_header_color_14" name="navigation_header"
+                                    type="radio" value="color_14"> <label for="nav_header_color_14"></label>
+                            </span><span><input class="chk-col-green filled-in" id="nav_header_color_15"
+                                    name="navigation_header" type="radio" value="color_15"> <label
+                                    for="nav_header_color_15"></label></span></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Header</p>
+                        <div><span><input class="chk-col-green filled-in" id="header_color_1" name="header_bg"
+                                    type="radio" value="color_1"> <label for="header_color_1"
+                                    class="bg-label-pattern"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_2" name="header_bg" type="radio"
+                                    value="color_2"> <label for="header_color_2"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_3" name="header_bg" type="radio"
+                                    value="color_3"> <label for="header_color_3"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_4" name="header_bg" type="radio"
+                                    value="color_4"> <label for="header_color_4"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_5" name="header_bg" type="radio"
+                                    value="color_5"> <label for="header_color_5"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_6" name="header_bg" type="radio"
+                                    value="color_6"> <label for="header_color_6"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_7" name="header_bg" type="radio"
+                                    value="color_7"> <label for="header_color_7"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_8" name="header_bg" type="radio"
+                                    value="color_8"> <label for="header_color_8"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_9" name="header_bg" type="radio"
+                                    value="color_9"> <label for="header_color_9"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_10" name="header_bg" type="radio"
+                                    value="color_10"> <label for="header_color_10"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_11" name="header_bg" type="radio"
+                                    value="color_11"> <label for="header_color_11"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_12" name="header_bg" type="radio"
+                                    value="color_12"> <label for="header_color_12"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_13" name="header_bg" type="radio"
+                                    value="color_13"> <label for="header_color_13"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_14" name="header_bg" type="radio"
+                                    value="color_14"> <label for="header_color_14"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="header_color_15" name="header_bg" type="radio"
+                                    value="color_15"> <label for="header_color_15"></label></span></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Sidebar</p>
+                        <div><span><input class="chk-col-green filled-in" id="sidebar_color_1" name="sidebar_bg"
+                                    type="radio" value="color_1"> <label for="sidebar_color_1"
+                                    class="bg-label-pattern"></label> </span><span><input
+                                    class="chk-col-green filled-in" id="sidebar_color_2" name="sidebar_bg" type="radio"
+                                    value="color_2"> <label for="sidebar_color_2"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_3" name="sidebar_bg"
+                                    type="radio" value="color_3"> <label for="sidebar_color_3"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_4" name="sidebar_bg"
+                                    type="radio" value="color_4"> <label for="sidebar_color_4"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_5" name="sidebar_bg"
+                                    type="radio" value="color_5"> <label for="sidebar_color_5"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_6" name="sidebar_bg"
+                                    type="radio" value="color_6"> <label for="sidebar_color_6"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_7" name="sidebar_bg"
+                                    type="radio" value="color_7"> <label for="sidebar_color_7"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_8" name="sidebar_bg"
+                                    type="radio" value="color_8"> <label for="sidebar_color_8"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_9" name="sidebar_bg"
+                                    type="radio" value="color_9"> <label for="sidebar_color_9"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_10" name="sidebar_bg"
+                                    type="radio" value="color_10"> <label for="sidebar_color_10"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_11" name="sidebar_bg"
+                                    type="radio" value="color_11"> <label for="sidebar_color_11"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_12" name="sidebar_bg"
+                                    type="radio" value="color_12"> <label for="sidebar_color_12"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_13" name="sidebar_bg"
+                                    type="radio" value="color_13"> <label for="sidebar_color_13"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_14" name="sidebar_bg"
+                                    type="radio" value="color_14"> <label for="sidebar_color_14"></label>
+                            </span><span><input class="chk-col-green filled-in" id="sidebar_color_15" name="sidebar_bg"
+                                    type="radio" value="color_15"> <label for="sidebar_color_15"></label></span></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Layout</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="theme_layout" name="theme_layout">
+                                <option value="disabled selected hidden">Choose Layout</option>
+                                <option value="vertical">Vertical</option>
+                                <option value="horizontal">Horizontal</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-3"
+                                aria-haspopup="listbox" aria-expanded="false" title="Choose Layout"
+                                data-id="theme_layout">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Choose Layout</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 791.605px; overflow: hidden; min-height: 0px;">
+                                <div class="inner show" role="listbox" id="bs-select-3" tabindex="-1"
+                                    aria-activedescendant="bs-select-3-0"
+                                    style="max-height: 775.605px; overflow-y: auto; min-height: 0px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-3-0" tabindex="0"
+                                                aria-setsize="3" aria-posinset="1" aria-selected="true"><span
+                                                    class="text">Choose Layout</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-3-1" tabindex="0"><span
+                                                    class="text">Vertical</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-3-2" tabindex="0"><span
+                                                    class="text">Horizontal</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Header position</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="header_position" name="header_position">
+                                <option value="disabled selected hidden">Choose Header Positon</option>
+                                <option value="static">Static</option>
+                                <option value="fixed">Fixed</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-4"
+                                aria-haspopup="listbox" aria-expanded="false" title="Choose Header Positon"
+                                data-id="header_position">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Choose Header Positon</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 896.386px; overflow: hidden; min-height: 0px;">
+                                <div class="inner show" role="listbox" id="bs-select-4" tabindex="-1"
+                                    aria-activedescendant="bs-select-4-0"
+                                    style="max-height: 880.386px; overflow-y: auto; min-height: 0px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-4-0" tabindex="0"
+                                                aria-setsize="3" aria-posinset="1" aria-selected="true"><span
+                                                    class="text">Choose Header Positon</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-4-1" tabindex="0"><span
+                                                    class="text">Static</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-4-2" tabindex="0"><span
+                                                    class="text">Fixed</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Sidebar</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="sidebar_style" name="sidebar_style">
+                                <option value="disabled selected hidden">Choose Sidebar</option>
+                                <option value="full">Full</option>
+                                <option value="mini">Mini</option>
+                                <option value="compact">Compact</option>
+                                <option value="modern">Modern</option>
+                                <option value="overlay">Overlay</option>
+                                <option value="icon-hover">Icon-hover</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-5"
+                                aria-haspopup="listbox" aria-expanded="false" title="Overlay" data-id="sidebar_style">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Overlay</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 1001.17px; overflow: hidden; min-height: 103px;">
+                                <div class="inner show" role="listbox" id="bs-select-5" tabindex="-1"
+                                    aria-activedescendant="bs-select-5-5"
+                                    style="max-height: 985.167px; overflow-y: auto; min-height: 87px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-0" tabindex="0"><span
+                                                    class="text">Choose Sidebar</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-1" tabindex="0"><span
+                                                    class="text">Full</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-2" tabindex="0"><span
+                                                    class="text">Mini</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-3" tabindex="0"><span
+                                                    class="text">Compact</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-4" tabindex="0"><span
+                                                    class="text">Modern</span></a></li>
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-5-5" tabindex="0"
+                                                aria-setsize="7" aria-posinset="6" aria-selected="true"><span
+                                                    class="text">Overlay</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-5-6" tabindex="0"><span
+                                                    class="text">Icon-hover</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Sidebar position</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="sidebar_position" name="sidebar_position">
+                                <option value="disabled selected hidden">Choose Sidebar Position</option>
+                                <option value="static">Static</option>
+                                <option value="fixed">Fixed</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-6"
+                                aria-haspopup="listbox" aria-expanded="false" title="Choose Sidebar Position"
+                                data-id="sidebar_position">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Choose Sidebar Position</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 1105.95px; overflow: hidden; min-height: 0px;">
+                                <div class="inner show" role="listbox" id="bs-select-6" tabindex="-1"
+                                    aria-activedescendant="bs-select-6-0"
+                                    style="max-height: 1089.95px; overflow-y: auto; min-height: 0px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-6-0" tabindex="0"
+                                                aria-setsize="3" aria-posinset="1" aria-selected="true"><span
+                                                    class="text">Choose Sidebar Position</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-6-1" tabindex="0"><span
+                                                    class="text">Static</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-6-2" tabindex="0"><span
+                                                    class="text">Fixed</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Container</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="container_layout" name="container_layout">
+                                <option value="disabled selected hidden">Choose Container</option>
+                                <option value="wide">Wide</option>
+                                <option value="boxed">Boxed</option>
+                                <option value="wide-boxed">Wide Boxed</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-7"
+                                aria-haspopup="listbox" aria-expanded="false" title="Choose Container"
+                                data-id="container_layout">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Choose Container</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 1210.73px; overflow: hidden; min-height: 103px;">
+                                <div class="inner show" role="listbox" id="bs-select-7" tabindex="-1"
+                                    aria-activedescendant="bs-select-7-0"
+                                    style="max-height: 1194.73px; overflow-y: auto; min-height: 87px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-7-0" tabindex="0"
+                                                aria-setsize="4" aria-posinset="1" aria-selected="true"><span
+                                                    class="text">Choose Container</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-7-1" tabindex="0"><span
+                                                    class="text">Wide</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-7-2" tabindex="0"><span
+                                                    class="text">Boxed</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-7-3" tabindex="0"><span
+                                                    class="text">Wide Boxed</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Direction</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="theme_direction" name="theme_direction">
+                                <option value="disabled selected hidden">Choose Direction</option>
+                                <option value="ltr">LTR</option>
+                                <option value="rtl">RTL</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-8"
+                                aria-haspopup="listbox" aria-expanded="false" title="RTL" data-id="theme_direction">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">RTL</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 1315.51px; overflow: hidden; min-height: 0px;">
+                                <div class="inner show" role="listbox" id="bs-select-8" tabindex="-1"
+                                    aria-activedescendant="bs-select-8-2"
+                                    style="max-height: 1299.51px; overflow-y: auto; min-height: 0px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li><a role="option" class="dropdown-item" id="bs-select-8-0" tabindex="0"><span
+                                                    class="text">Choose Direction</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-8-1" tabindex="0"><span
+                                                    class="text">LTR</span></a></li>
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-8-2" tabindex="0"
+                                                aria-setsize="3" aria-posinset="3" aria-selected="true"><span
+                                                    class="text">RTL</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Body Font</p>
+                        <div class="dropdown bootstrap-select default-select form-control dropup"><select
+                                class="default-select form-control" id="typography" name="typography">
+                                <option value="disabled selected hidden">Choose Font</option>
+                                <option value="roboto">Roboto</option>
+                                <option value="poppins">Poppins</option>
+                                <option value="opensans">Open Sans</option>
+                                <option value="HelveticaNeue">HelveticaNeue</option>
+                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light"
+                                data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-9"
+                                aria-haspopup="listbox" aria-expanded="false" title="Poppins" data-id="typography">
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <div class="filter-option-inner-inner">Poppins</div>
+                                    </div>
+                                </div>
+                            </button>
+                            <div class="dropdown-menu "
+                                style="max-height: 1420.29px; overflow: hidden; min-height: 103px;">
+                                <div class="inner show" role="listbox" id="bs-select-9" tabindex="-1"
+                                    aria-activedescendant="bs-select-9-2"
+                                    style="max-height: 1404.29px; overflow-y: auto; min-height: 87px;">
+                                    <ul class="dropdown-menu inner show" role="presentation"
+                                        style="margin-top: 0px; margin-bottom: 0px;">
+                                        <li><a role="option" class="dropdown-item" id="bs-select-9-0" tabindex="0"><span
+                                                    class="text">Choose Font</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-9-1" tabindex="0"><span
+                                                    class="text">Roboto</span></a></li>
+                                        <li class="selected active"><a role="option"
+                                                class="dropdown-item active selected" id="bs-select-9-2" tabindex="0"
+                                                aria-setsize="5" aria-posinset="3" aria-selected="true"><span
+                                                    class="text">Poppins</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-9-3" tabindex="0"><span
+                                                    class="text">Open Sans</span></a></li>
+                                        <li><a role="option" class="dropdown-item" id="bs-select-9-4" tabindex="0"><span
+                                                    class="text">HelveticaNeue</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps__rail-y" style="top: 0px; height: 755px; right: 508px;">
+                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 418px;"></div>
+                </div>
+            </div>
+            <div class="note-text"><span class="text-danger">*Note :</span> This theme switcher is not part of product.
+                It is only for demo. you will get all guideline in documentation. please check <a class="text-green"
+                    href="https://qerza.dexignzone.com/documentation/" target="_blank">documentation.</a></div>
+        </div>
+    </div>
+    <div class="dz-demo-panel">
+        \
+        <div class="dz-demo-inner"><a class="btn btn-sm btn-green mb-3 px-2 py-1" href="javascript:void(0);"
+                onclick="deleteAllCookie()">Delete All Cookie</a>
+            <div class="dz-demo-header">
+                <h4>8 Unique Demos</h4>
+            </div>
+            <div class="dz-demo-content row text-center ps ps--active-y">
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic1.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="1">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="1">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 1</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic2.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="2">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="2">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 2</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic3.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="3">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="3">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 3</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic4.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="4">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="4">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 4</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic5.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="5">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="5">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 5</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic6.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="6">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml-rtl/index.html" data-theme="6">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 6</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic7.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="7">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="7">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 7</h5>
+                </div>
+                <div class="col-6 mb-5">
+                    <div class="rounded-lg dz-demo-bx overlay-bx">
+                        <div class="rounded-lg overlay-wrapper"><img alt="" class="w-100" src="images/demo/pic8.jpg">
+                        </div>
+                        <div class="overlay-layer"><a class="btn btn-sm btn-secondary dz_theme_demo me-2"
+                                href="javascript:void(0);" data-theme="8">Default</a> <a
+                                class="btn btn-sm btn-info dz_theme_demo_rtl"
+                                href="https://qerza.dexignzone.com/xhtml/index.html" data-theme="8">LTR Version</a>
+                        </div>
+                    </div>
+                    <h5 class="text-black">Demo 8</h5>
+                </div>
+                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps__rail-y" style="top: 0px; height: 695px; right: 337px;">
+                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 412px;"></div>
+                </div>
+            </div>
+            <div class="note-text"><span class="text-danger">*Note :</span> This theme switcher is not part of product.
+                It is only for demo. you will get all guideline in documentation. please check <a class="text-green"
+                    href="https://qerza.dexignzone.com/documentation/" target="_blank">documentation.</a></div>
+        </div>
+    </div>
+    <script>
+        function carouselReview() {
+            /*  testimonial one function by = owl.carousel.js */
+            function checkDirection() {
+                var htmlClassName = document.getElementsByTagName('html')[0].getAttribute('class');
+                if (htmlClassName == 'rtl') {
+                    return true;
+                } else {
+                    return false;
+
+                }
+            }
+
+            jQuery('.testimonial-one').owlCarousel({
+                loop: true,
+                autoplay: true,
+                margin: 30,
+                nav: false,
+                dots: false,
+                rtl: checkDirection(),
+                left: true,
+                navText: ['', ''],
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    1200: {
+                        items: 2
+                    },
+                    1600: {
+                        items: 3
+                    }
+                }
+            })
+        }
+        jQuery(window).on('load', function () {
+            setTimeout(function () {
+                carouselReview();
+            }, 1000);
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            setTimeout(function () {
+                dezSettingsOptions.version = 'dark';
+                new dezSettings(dezSettingsOptions);
+            }, 1000)
+            jQuery(window).on('resize', function () {
+                dezSettingsOptions.version = 'dark';
+                new dezSettings(dezSettingsOptions);
+                jQuery('.dz-theme-mode').addClass('active');
+            });
+        });
+    </script>
+
+    <svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
+        style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;">
+        <defs id="SvgjsDefs1002"></defs>
+        <polyline id="SvgjsPolyline1003" points="0,0"></polyline>
+        <path id="SvgjsPath1004"
+            d="M-1 255L-1 255C-1 255 50.26141468683878 255 50.26141468683878 255C50.26141468683878 255 100.52282937367757 255 100.52282937367757 255C100.52282937367757 255 150.78424406051636 255 150.78424406051636 255C150.78424406051636 255 201.04565874735513 255 201.04565874735513 255C201.04565874735513 255 251.3070734341939 255 251.3070734341939 255C251.3070734341939 255 301.5684881210327 255 301.5684881210327 255C301.5684881210327 255 301.5684881210327 255 301.5684881210327 255 ">
+        </path>
+    </svg>
+</body>
+
+</html>

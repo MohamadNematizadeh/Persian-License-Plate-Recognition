@@ -1,5 +1,5 @@
 # Persian License Plate Recognition 🚘
-<img src = "https://skillicons.dev/icons?i=html,css,bootstrap,tensorflow,python,javascript"></p>
+<img src = "https://skillicons.dev/icons?i=html,css,bootstrap,tensorflow,python,javascript">
 Vehicle license plate pipeline using YOLOV8 and DTRB (deep text recognition criteria) 🚗
 
 ![screen shot](https://github.com/MohamadNematizadeh/my_website/blob/main/static/image/projket/License_Plate_PipeLine_UI.png?raw=true)
